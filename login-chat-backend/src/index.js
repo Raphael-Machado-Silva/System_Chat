@@ -13,19 +13,24 @@ const io = new Server(server, {
   }
 });
 
+// Middleware para exibir os logs das requisições
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`); // Exibe o método e a URL das requisições
+  next(); // Continue com o próximo middleware ou rota
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Adicionando console.log para ver as requisições
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`); // Exibe o método e a URL das requisições
-  next(); // Continue com o próximo middleware ou rota
+// Adicionando logs para ver se o servidor está configurado corretamente
+app.use('/api/auth', (req, res, next) => {
+  console.log('Requisição para /api/auth', req.method, req.url);
+  next();
 });
-
-// Rotas
 app.use('/api/auth', authRoutes);
 
+// Rota raiz
 app.get('/', (req, res) => {
   console.log('Acessou a rota /'); // Ver quando a rota raiz for acessada
   res.send('API está rodando...');
@@ -35,21 +40,22 @@ app.get('/', (req, res) => {
 let onlineUsers = [];
 
 io.on('connection', (socket) => {
-  console.log('Um usuário conectado:', socket.id);
+  console.log(`[Socket.io] Usuário conectado: ${socket.id}`);
 
   socket.on('join', (username) => {
     onlineUsers.push({ id: socket.id, username });
-    console.log(`Usuário ${username} entrou no chat.`);
+    console.log(`[Socket.io] Usuário ${username} entrou no chat.`);
     io.emit('users', onlineUsers);
   });
 
   socket.on('disconnect', () => {
     onlineUsers = onlineUsers.filter(user => user.id !== socket.id);
-    console.log('Um usuário se desconectou:', socket.id);
+    console.log(`[Socket.io] Usuário desconectado: ${socket.id}`);
     io.emit('users', onlineUsers);
   });
 
   socket.on('message', (message) => {
+    console.log(`[Socket.io] Mensagem recebida: ${message}`);
     io.emit('message', message);
   });
 });

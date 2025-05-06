@@ -9,6 +9,7 @@ router.post('/login', login);
 // Nova rota para listar usuários
 router.get('/users', (req, res) => {
   // Aqui você pode adicionar qualquer lógica de autenticação ou autorização, se necessário
+  console.log('Acessando a rota /users');
   res.json(users);  // Retorna a lista de usuários
 });
 

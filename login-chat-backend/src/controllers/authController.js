@@ -1,29 +1,28 @@
-// src/controllers/authController.js
 const jwt = require('jsonwebtoken');
 const users = require('../users');
 
-// Gerar o JWT
-const generateToken = (username) => {
-  return jwt.sign({ username }, 'secreta', { expiresIn: '1h' });
-};
-
-// Verificar se o usuário existe e validar a senha
 const login = (req, res) => {
   const { username, password } = req.body;
 
-  const user = users.find((u) => u.username === username);
-  if (!user) {
-    return res.status(400).json({ message: 'Usuário não encontrado' });
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username e password são obrigatórios' });
   }
 
-  // Compara a senha em texto simples
-  if (password !== user.password) {
-    return res.status(400).json({ message: 'Senha incorreta' });
-  }
+  const user = users.find(u => u.username === username && u.password === password);
 
-  // Gera o token JWT
-  const token = generateToken(user.username);
-  return res.json({ token });
+  if (user) {
+    const payload = { 
+      id: user.id, 
+      username: user.username,
+      // Adicione outros dados do usuário se necessário
+    };
+    
+    const token = jwt.sign(payload, 'secreto', { expiresIn: '1h' });
+    
+    return res.json({ token });
+  } else {
+    return res.status(401).json({ message: 'Credenciais inválidas' });
+  }
 };
 
 module.exports = { login };

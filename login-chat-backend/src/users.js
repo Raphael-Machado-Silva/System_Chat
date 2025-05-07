@@ -1,7 +1,13 @@
-// src/users.js
-const users = [
-  { username: 'joao', password: '123456' },  // Senha simples
-  { username: 'maria', password: 'abcdef' }, // Senha simples
+// Simulação de banco de dados
+module.exports = [
+  {
+    id: 1,
+    username: 'usuario1',
+    password: 'senha123' // Em produção, use senhas criptografadas!
+  },
+  {
+    id: 2,
+    username: 'usuario2',
+    password: 'senha456'
+  }
 ];
-
-module.exports = users;

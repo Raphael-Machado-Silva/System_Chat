@@ -18,23 +18,30 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
-
-      const data = await response.json();
-
+  
+      // Verifica se a resposta é JSON válido
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text); // Tenta parsear o JSON
+      } catch (error) {
+        console.error('Resposta não é JSON:', text);
+        throw new Error('Resposta inválida do servidor');
+      }
+  
       if (response.ok) {
         const token = data.token;
-        const userData = jwtDecode(token); // Mude para jwtDecode// Decodifica o token para obter os dados do usuário
-        login(userData, token); // Armazena os dados do usuário no contexto
+        const userData = jwtDecode(token);
+        login(userData, token);
         navigate('/chat');
       } else {
-        alert(data.message || 'Erro na resposta do servidor.');
+        alert(data.message || 'Erro na autenticação');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      alert('Erro ao conectar com o servidor');
+      alert('Servidor indisponível ou erro inesperado. Verifique o console.');
     }
   };
-
   return (
     <div>
       <h2>Login</h2>

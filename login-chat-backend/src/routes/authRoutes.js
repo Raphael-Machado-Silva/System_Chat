@@ -1,16 +1,8 @@
 const express = require('express');
+const { login, getUsers } = require('../controllers/authController');
 const router = express.Router();
-const { login } = require('../controllers/authController');
-const users = require('../users'); // Vamos importar os usuários para essa rota
 
-// Rota de login
 router.post('/login', login);
-
-// Nova rota para listar usuários
-router.get('/users', (req, res) => {
-  // Aqui você pode adicionar qualquer lógica de autenticação ou autorização, se necessário
-  console.log('Acessando a rota /users');
-  res.json(users);  // Retorna a lista de usuários
-});
+router.get('/users', getUsers); // Rota GET para listar usuários
 
 module.exports = router;

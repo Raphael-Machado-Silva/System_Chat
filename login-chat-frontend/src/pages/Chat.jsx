@@ -1,28 +1,32 @@
-import React, { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import UserList from '../components/UserList';
 
 const Chat = () => {
-  const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
-
-  if (!user) {
-    return null; // Ou um loader enquanto redireciona
-  }
+  const { user, logout } = useAuth();
+  const [selectedUser, setSelectedUser] = useState(null);
 
   return (
     <div className="chat-container">
       <header className="chat-header">
         <p>Logado como: <strong>{user.username}</strong></p>
-        <button onClick={logout} className="logout-button">Sair</button>
+        <button onClick={logout}>Sair</button>
       </header>
-      {/* Restante do seu chat */}
+
+      <div className="chat-body">
+        <UserList onSelectUser={setSelectedUser} />
+        
+        <div className="message-area">
+          {selectedUser ? (
+            <div>
+              <h4>Conversando com: {selectedUser.username}</h4>
+              {/* Implementar ChatBox aqui */}
+            </div>
+          ) : (
+            <p>Selecione um usuário para conversar.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

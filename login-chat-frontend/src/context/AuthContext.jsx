@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Importe desta forma
+import { jwtDecode } from 'jwt-decode';
 
 export const AuthContext = createContext();
 
@@ -9,15 +9,15 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
+  // Verifica token ao carregar
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       try {
-        const userData = jwtDecode(storedToken); // Mude para jwtDecode
+        const userData = jwtDecode(storedToken);
         setUser(userData);
         setToken(storedToken);
       } catch (error) {
-        console.error('Token inválido:', error);
         localStorage.removeItem('token');
       }
     }

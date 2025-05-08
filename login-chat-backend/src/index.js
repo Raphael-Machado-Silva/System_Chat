@@ -5,11 +5,15 @@ const cors = require('cors');
 const { Server } = require('socket.io');
 const authRoutes = require('./routes/authRoutes');
 
+require('dotenv').config();
+
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173', // Ajuste conforme seu frontend
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST']  // Ajuste conforme seu frontend
   }
 });
 
@@ -23,12 +27,12 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth', authRoutes);
 // Adicionando logs para ver se o servidor está configurado corretamente
 app.use('/api/auth', (req, res, next) => {
   console.log('Requisição para /api/auth', req.method, req.url);
   next();
 });
-app.use('/api/auth', authRoutes);
 
 // Rota raiz
 app.get('/', (req, res) => {

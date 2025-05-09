@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import UserList from '../components/UserList';
+import UserList from '../components/UserList'
+import ChatBox from '../components/ChatBox';
 
 const Chat = () => {
   const { user, logout } = useAuth();
@@ -15,17 +16,12 @@ const Chat = () => {
 
       <div className="chat-body">
         <UserList onSelectUser={setSelectedUser} />
-        
-        <div className="message-area">
-          {selectedUser ? (
-            <div>
-              <h4>Conversando com: {selectedUser.username}</h4>
-              {/* Implementar ChatBox aqui */}
-            </div>
-          ) : (
-            <p>Selecione um usuário para conversar.</p>
-          )}
-        </div>
+        {selectedUser && (
+          <div className="chat-area">
+            <h4>Conversando com: {selectedUser.username}</h4>
+            <ChatBox selectedUser={selectedUser} />
+          </div>
+        )}
       </div>
     </div>
   );

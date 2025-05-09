@@ -7,18 +7,14 @@ const UserList = ({ onSelectUser }) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-        try {
-          const response = await fetch('http://localhost:5000/api/auth/users');
-          if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-          }
-          const data = await response.json();
-          setUsers(data.filter(user => user.id !== currentUser.id));
-        } catch (error) {
-          console.error('Erro detalhado:', error);
-          alert('Não foi possível carregar os usuários. Verifique o console.');
-        }
-      };
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/users');
+        const data = await response.json();
+        setUsers(data.filter(user => user.id !== currentUser.id));
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+      }
+    };
     fetchUsers();
   }, [currentUser]);
 

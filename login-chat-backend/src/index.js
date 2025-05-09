@@ -1,4 +1,3 @@
-// src/index.js
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
@@ -7,64 +6,70 @@ const authRoutes = require('./routes/authRoutes');
 
 require('dotenv').config();
 
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST']  // Ajuste conforme seu frontend
-  }
+    methods: ['GET', 'POST'],
+  },
 });
 
-// Middleware para exibir os logs das requisições
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`); // Exibe o método e a URL das requisições
-  next(); // Continue com o próximo middleware ou rota
-});
+// Armazena TODAS as mensagens (persiste até o servidor reiniciar)
+const chatHistory = {};
 
-// Middleware
+// Middlewares
 app.use(cors());
 app.use(express.json());
-
 app.use('/api/auth', authRoutes);
-// Adicionando logs para ver se o servidor está configurado corretamente
-app.use('/api/auth', (req, res, next) => {
-  console.log('Requisição para /api/auth', req.method, req.url);
-  next();
-});
-
-// Rota raiz
-app.get('/', (req, res) => {
-  console.log('Acessou a rota /'); // Ver quando a rota raiz for acessada
-  res.send('API está rodando...');
-});
 
 // Socket.io
-let onlineUsers = [];
-
 io.on('connection', (socket) => {
   console.log(`[Socket.io] Usuário conectado: ${socket.id}`);
 
-  socket.on('join', (username) => {
-    onlineUsers.push({ id: socket.id, username });
-    console.log(`[Socket.io] Usuário ${username} entrou no chat.`);
-    io.emit('users', onlineUsers);
+  // Registra o ID do usuário
+  socket.on('register', (userId) => {
+    socket.userId = userId;
+    console.log(`[Socket.io] Usuário ${userId} registrado.`);
   });
 
-  socket.on('disconnect', () => {
-    onlineUsers = onlineUsers.filter(user => user.id !== socket.id);
-    console.log(`[Socket.io] Usuário desconectado: ${socket.id}`);
-    io.emit('users', onlineUsers);
+  // Recebe mensagem privada
+  socket.on('private-message', ({ receiverId, message }) => {
+    const senderId = socket.userId;
+    const chatKey = [senderId, receiverId].sort().join('-');
+
+    // Armazena a mensagem
+    if (!chatHistory[chatKey]) chatHistory[chatKey] = [];
+    chatHistory[chatKey].push({ 
+      senderId, 
+      message, 
+      timestamp: new Date() 
+    });
+
+    // Envia para o destinatário (se online)
+    const receiverSocket = Array.from(io.sockets.sockets.values()).find(
+      (s) => s.userId === receiverId
+    );
+    if (receiverSocket) {
+      receiverSocket.emit('private-message', { senderId, message });
+    }
+
+    // Atualiza o chat para AMBOS os usuários
+    io.emit('update-chat', { 
+      chatKey, 
+      messages: chatHistory[chatKey] 
+    });
   });
 
-  socket.on('message', (message) => {
-    console.log(`[Socket.io] Mensagem recebida: ${message}`);
-    io.emit('message', message);
+  // Envia histórico quando solicitado
+  socket.on('request-chat-history', ({ chatKey }) => {
+    socket.emit('chat-history', { 
+      chatKey, 
+      messages: chatHistory[chatKey] || [] 
+    });
   });
 });
 
-// Inicializa o servidor
 server.listen(5000, () => {
   console.log('Servidor rodando na porta 5000');
 });

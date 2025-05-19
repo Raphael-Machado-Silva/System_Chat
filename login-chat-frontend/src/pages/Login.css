@@ -1,0 +1,151 @@
+/* Login.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  background-color: #090413;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.background {
+  width: 530px;
+  height: 420px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+}
+
+.background .shape {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.shape:first-child {
+  background: linear-gradient(#791f87, #871F78);
+  left: -20px;
+  top: -70px;
+}
+
+.shape:last-child {
+  background: linear-gradient(to right, #ff512f, #f09819);
+  right: 0px;
+  bottom: -70px;
+}
+
+.login-form {
+  height: 440px;
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.13);
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 50px 35px;
+  z-index: 10;
+}
+
+.login-form * {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  outline: none;
+  border: none;
+}
+
+.login-form h3 {
+  font-size: 52px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Bebas Neue', arial;
+  cursor: pointer;
+}
+
+.login-form label {
+  display: block;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  font-family: 'Bebas Neue', arial;
+  cursor: pointer;
+}
+
+.login-form input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.login-form input::placeholder {
+  color: #e5e5e5;
+}
+
+.login-form button {
+    /* Estilo atual (botão branco) */
+    margin-top: 40px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative; /* Necessário para o pseudo-elemento */
+    overflow: hidden; /* Esconde o overflow do gradiente */
+    z-index: 1;
+  }
+  
+  .login-form button:hover {
+    color: white; /* Texto branco no hover */
+  }
+  
+  /* Efeito de gradiente azul-laranja ao passar o mouse */
+  .login-form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      #791f87,  /* Azul */
+      #E07320   /* Laranja */
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .login-form button:hover::before {
+    opacity: 1; /* Mostra o gradiente no hover */
+  }

@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import './Login.css'; // Importe o CSS externo
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -19,11 +20,10 @@ const Login = () => {
         body: JSON.stringify({ username, password })
       });
   
-      // Verifica se a resposta é JSON válido
       const text = await response.text();
       let data;
       try {
-        data = JSON.parse(text); // Tenta parsear o JSON
+        data = JSON.parse(text);
       } catch (error) {
         console.error('Resposta não é JSON:', text);
         throw new Error('Resposta inválida do servidor');
@@ -42,20 +42,29 @@ const Login = () => {
       alert('Servidor indisponível ou erro inesperado. Verifique o console.');
     }
   };
+
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="login-container">
+      <div className="background">
+        <div className="shape"></div>
+        <div className="shape"></div>
+      </div>
+      <form className="login-form" onSubmit={handleLogin}>
+        <h3>Login</h3>
+        <label htmlFor="username">Usuário</label>
         <input
           type="text"
-          placeholder="Usuário"
+          placeholder="Digite seu usuário"
+          id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+        <label htmlFor="password">Senha</label>
         <input
           type="password"
-          placeholder="Senha"
+          placeholder="Digite sua senha"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required

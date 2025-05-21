@@ -1,0 +1,85 @@
+/* ChatHeader.css */
+/* Login.css */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #090413 !important;
+    color: white;
+    font-family: 'Poppins';
+  }
+  
+  .chat-header h2 {
+    margin: 0;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  
+  .chat-header h2 strong {
+    font-weight: 600;
+  }
+  
+  .logout-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 50px;
+  }
+  
+  .logout-btn {
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #903C90;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px #903C90;
+    font-family: 'Bebas Neue' !important;
+    transition: all 1s ease; /* 'all' para todas as propriedades animáveis */
+  }
+  strong{
+    cursor: pointer;
+    transition: 0.5s ease;
+    font-family: 'Bebas Neue' !important;
+    letter-spacing: 1.5px;
+  }
+  strong:hover{
+    color: #e48be4;
+  }
+  .logout-btn .border {
+    position: absolute;
+    left: 0;
+    top: 0;
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 150 480;
+    stroke-dashoffset: 150;
+    transition: all 2s ease-in-out; /* Adicione 'all' aqui também */
+  }
+  
+  .logout-btn span {
+    color: white;
+    font-size: 24px;
+    font-weight: 100;
+    position: relative;
+    z-index: 1;
+    transition: color 0.5s ease; /* Ajuste para o mesmo tempo do botão */
+  }
+  
+  .logout-btn:hover {
+    background: #791f87;
+  }
+  
+  .logout-btn:hover span {
+    color: white; /* Remova o !important */
+  }
+  
+  .logout-btn:hover .border {
+    stroke-dashoffset: -480;
+  }

@@ -1,85 +1,200 @@
-/* ChatHeader.css */
-/* Login.css */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Estilos gerais */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #0e0a0e !important;
+  color: #ecf0f1;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header */
 .chat-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #090413 !important;
+  color: white;
+  border-bottom: 1px solid #37293a;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+.chat-header h2 strong {
+  font-weight: 600;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1.5px;
+  transition: color 0.3s ease;
+}
+
+.chat-header h2 strong:hover {
+  color: #e48be4;
+}
+
+/* Botão de logout */
+.logout-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+}
+
+.logout-btn {
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #903C90;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px #903C90;
+  font-family: 'Bebas Neue', sans-serif;
+  transition: all 0.5s ease;
+}
+
+.logout-btn .border {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: white;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: all 1s ease-in-out;
+}
+
+.logout-btn span {
+  color: white;
+  font-size: 24px;
+  font-weight: 100;
+  position: relative;
+  z-index: 1;
+  transition: color 0.5s ease;
+}
+
+.logout-btn:hover {
+  background: #791f87;
+  transform: translateY(-2px);
+}
+
+.logout-btn:hover .border {
+  stroke-dashoffset: -480;
+}
+
+/* Corpo do chat */
+.chat-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Área de chat */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0e0a0e;
+  border-left: 1px solid #37293a;
+}
+
+.chat-header-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #37293a;
+  background-color: #090413;
+}
+
+.chat-header-area h4 {
+  margin: 0;
+  font-weight: 400;
+  color: #8F3C8F;
+}
+
+.chat-header-area h4 span {
+  color: #e48be4;
+  font-weight: 600;
+}
+
+.close-chat-btn {
+  background: none;
+  border: none;
+  color: #8F3C8F;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: all 0.3s ease;
+}
+
+.close-chat-btn:hover {
+  color: #e48be4;
+  transform: scale(1.2);
+}
+
+/* Mensagem quando nenhum chat está selecionado */
+.no-chat-selected {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0e0a0e;
+}
+
+.welcome-message {
+  text-align: center;
+  padding: 20px;
+  max-width: 500px;
+}
+
+.welcome-message h3 {
+  color: #8F3C8F;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+.welcome-message p {
+  color: #a0a0a0;
+  font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .chat-body {
+    flex-direction: column;
+  }
+  
+  .chat-header {
     padding: 1rem;
-    background-color: #090413 !important;
-    color: white;
-    font-family: 'Poppins';
   }
   
   .chat-header h2 {
-    margin: 0;
-    font-weight: 400;
-    cursor: pointer;
-  }
-  
-  .chat-header h2 strong {
-    font-weight: 600;
+    font-size: 1.2rem;
   }
   
   .logout-btn-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 40px;
   }
   
   .logout-btn {
-    width: 150px;
-    height: 50px;
-    cursor: pointer;
-    background-color: transparent;
-    border: 1px solid #903C90;
-    outline: none;
-    position: relative;
-    overflow: hidden;
-    border-radius: 5px;
-    box-shadow: 0px 0px 2px #903C90;
-    font-family: 'Bebas Neue' !important;
-    transition: all 1s ease; /* 'all' para todas as propriedades animáveis */
-  }
-  strong{
-    cursor: pointer;
-    transition: 0.5s ease;
-    font-family: 'Bebas Neue' !important;
-    letter-spacing: 1.5px;
-  }
-  strong:hover{
-    color: #e48be4;
-  }
-  .logout-btn .border {
-    position: absolute;
-    left: 0;
-    top: 0;
-    fill: none;
-    stroke: white;
-    stroke-dasharray: 150 480;
-    stroke-dashoffset: 150;
-    transition: all 2s ease-in-out; /* Adicione 'all' aqui também */
+    width: 120px;
+    height: 40px;
   }
   
-  .logout-btn span {
-    color: white;
-    font-size: 24px;
-    font-weight: 100;
-    position: relative;
-    z-index: 1;
-    transition: color 0.5s ease; /* Ajuste para o mesmo tempo do botão */
+  .chat-area {
+    border-left: none;
+    border-top: 1px solid #37293a;
   }
-  
-  .logout-btn:hover {
-    background: #791f87;
-  }
-  
-  .logout-btn:hover span {
-    color: white; /* Remova o !important */
-  }
-  
-  .logout-btn:hover .border {
-    stroke-dashoffset: -480;
-  }
+}

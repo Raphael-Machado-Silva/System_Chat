@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import io from 'socket.io-client';
+import './ChatBox.css'; // Arquivo CSS que vamos criar
 
 const ChatBox = ({ selectedUser }) => {
   const { user } = useAuth();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
+  const messagesEndRef = useRef();
 
   useEffect(() => {
     if (!selectedUser) return;
@@ -38,7 +40,16 @@ const ChatBox = ({ selectedUser }) => {
     return () => {
       socketRef.current.disconnect();
     };
-  }, [user.id, selectedUser]); // Recarrega quando selectedUser muda
+  }, [user.id, selectedUser]);
+
+  // Rolagem automática para a última mensagem
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const handleSendMessage = () => {
     if (message.trim() && selectedUser) {
@@ -51,26 +62,49 @@ const ChatBox = ({ selectedUser }) => {
   };
 
   return (
-    <div className="chat-box">
-      <div className="messages">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={msg.senderId === user.id ? 'sent' : 'received'}
-          >
-            {msg.message}
+    <div className="chat-box-container">
+      <div className="chat-messages">
+        {messages.length > 0 ? (
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.senderId === user.id ? 'sent' : 'received'}`}
+            >
+              <div className="message-content">
+                <p>{msg.message}</p>
+                <span className="message-time">
+                  {new Date(msg.timestamp || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-messages">
+            <p>Nenhuma mensagem ainda. Envie uma mensagem para iniciar a conversa!</p>
           </div>
-        ))}
+        )}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="message-input">
+      
+      <div className="chat-input-container">
         <input
           type="text"
+          className="chat-input"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-          placeholder="Digite uma mensagem..."
+          placeholder="Digite sua mensagem..."
         />
-        <button onClick={handleSendMessage}>Enviar</button>
+        <button 
+          className="send-button"
+          onClick={handleSendMessage}
+          disabled={!message.trim()}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
       </div>
     </div>
   );

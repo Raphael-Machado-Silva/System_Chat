@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import UserList from '../components/UserList';
 import ChatBox from '../components/ChatBox';
-import './ChatHeader.css'; // Vamos criar este arquivo para os estilos
+import './ChatHeader.css';
 
 const Chat = () => {
   const { user, logout } = useAuth();
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // Função para limpar a seleção
+  const handleCloseChat = () => {
+    setSelectedUser(null);
+  };
 
   return (
     <div className="chat-container">
@@ -24,11 +29,30 @@ const Chat = () => {
       </header>
 
       <div className="chat-body">
-        <UserList onSelectUser={setSelectedUser} />
-        {selectedUser && (
+        <UserList 
+          onSelectUser={setSelectedUser} 
+          selectedUserId={selectedUser?.id}  // Passa o ID do usuário selecionado
+        />
+        {selectedUser ? (
           <div className="chat-area">
-            <h4>Conversando com: {selectedUser.username}</h4>
+            <div className="chat-header-area">
+              <h4>Conversando com: <span>{selectedUser.username}</span></h4>
+              <button 
+                className="close-chat-btn"
+                onClick={handleCloseChat}
+                title="Fechar chat"
+              >
+                ×
+              </button>
+            </div>
             <ChatBox selectedUser={selectedUser} />
+          </div>
+        ) : (
+          <div className="no-chat-selected">
+            <div className="welcome-message">
+              <h3>Selecione um usuário para começar a conversar</h3>
+              <p>Ou aguarde alguém entrar em contato com você</p>
+            </div>
           </div>
         )}
       </div>

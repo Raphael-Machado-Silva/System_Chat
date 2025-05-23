@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import './UserList.css';
 
-const UserList = ({ onSelectUser }) => {
+const UserList = ({ onSelectUser, selectedUserId }) => {  // Adicione selectedUserId como prop
   const [users, setUsers] = useState([]);
   const { user: currentUser } = useAuth();
 
@@ -26,9 +27,10 @@ const UserList = ({ onSelectUser }) => {
           <li
             key={user.id}
             onClick={() => onSelectUser(user)}
-            style={{ color: user.isOnline ? 'green' : 'gray' }}
+            className={`user-item ${selectedUserId === user.id ? 'selected' : ''}`}
           >
-            {user.username} {user.isOnline ? '🟢' : '⚪'}
+            <span className={`status-indicator ${user.isOnline ? 'online' : 'offline'}`} />
+            <span className="username">{user.username}</span>
           </li>
         ))}
       </ul>

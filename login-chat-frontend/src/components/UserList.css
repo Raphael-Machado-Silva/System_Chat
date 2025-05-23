@@ -1,0 +1,72 @@
+.user-list {
+    width: 250px;
+    height: 100%;
+    background-color: #0e0a0e;
+    color: #ecf0f1;
+    border-right: 1px solid #37293a;
+    overflow-y: auto;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  
+  .user-list h3 {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #8F3C8F;
+    font-size: 1.6rem;
+    text-align: center;
+    font-family: 'Bebas Neue', 'Times New Roman', Times, serif;
+    cursor: pointer;
+  }
+  
+  .user-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10%;
+    text-align: center;
+  }
+  
+  .user-list li {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'Poppins';
+  }
+  
+  .user-list li:hover {
+    background-color: #642964 !important;
+    color: white !important;
+  }
+  
+  .user-list li.selected {
+    background-color: #8F3C8F;
+    color: white;
+  }
+  
+  /* Scrollbar personalizada */
+  .user-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .user-list::-webkit-scrollbar-track {
+    background: #2c3e50;
+  }
+  
+  .user-list::-webkit-scrollbar-thumb {
+    background: #34495e;
+    border-radius: 3px;
+  }
+  
+  .user-list::-webkit-scrollbar-thumb:hover {
+    background: #2980b9;
+  }
